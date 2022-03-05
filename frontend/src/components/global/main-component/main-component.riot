@@ -1,0 +1,23 @@
+<main-component>
+    <h1>Products <h1/>
+    <form-component></form-component>
+    <list-product items={this.state.items}></list-product>
+
+
+    <script>
+        export default {
+            state:{
+                url:"http://127.0.0.1:8000/api/v1/products/",
+                items:[]
+            },
+            async onBeforeMount () {
+                const response = await fetch(this.state.url)
+                const items = await response.json()
+                console.log(items)
+                this.state.items = items
+                this.update()
+            }
+        }
+    </script>
+
+</main-component>
