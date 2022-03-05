@@ -1,28 +1,28 @@
 <form-component>
 
     <div class="row">
-        <form onsubmit={ add }  class="form-group" id="product_form">
+        <form class="form-group" id="product_form">
             <div class="container flex flex-col">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <input type="text"  name="product_name" class="form-control" placeholder="Enter Product Name" id="product_name" }>
+                        <input type="text"  name="product_name" class="form-control" placeholder="Enter Product Name" id="product_name" value={props.item.product_name}>
                     </div>
                 </div>
 
                 <div class="col-md-6">
                     <div class="form-group">
-                        <input type="number"  name="quantity" class="form-control" placeholder="How Many you have" id="quantity" }>  
+                        <input type="number"  name="quantity" class="form-control" placeholder="How Many you have" id="quantity" value={props.item.quantity}>  
                     </div>
                 </div>
 
                 <div class="col-md-6">
                     <div class="form-group">
-                        <input type="number"  name="price" class="form-control" placeholder="Enter Product Price" id="price" }>
+                        <input type="number"  name="price" class="form-control" placeholder="Enter Product Price" id="price" value={props.item.price}>
                     </div>
                 </div>
             
                 <div class="col-md-6">
-                    <button id="addProductBtn">
+                    <button id="addProductBtn" onclick={handleSubmit}>
                         Submit
                     </button>
                 </div>
@@ -33,41 +33,17 @@
     
     <script>
 
-    export default {
-      onBeforeMount(props, state) {
-        // initial state
-        this.state = {
-          items: props.items,
-          product_name:'',
-          quantity:0,
-          price:0.0,
+        export default {
+            handleSubmit(event){
+                event.preventDefault()
+                const { product_name, quantity, price } = document.forms[0].elements;
+                const formResult = [ product_name.value, quantity.value, price.value]
+
+                if (this.props.action === "create"){
+                    this.props.handleCreate(formResult)
+                }
+            }
         }
-      },
-      add(e) {
-        e.preventDefault()
-        const { product_name, quantity, price } = document.forms[0].elements;
-        if (this.state) {
-          console.log("here")
-          this.update({
-            items: [
-              // add a new item
-              {
-                "id": this.state.items.length + 1 ,
-                "product_name": product_name.value,
-                "quantity": quantity.value,
-                "price": price.value,
-              },
-              ...this.state.items,
-            ],
-          })
-        }
-      },
-      toggle(item) {
-        item.done = !item.done
-        // trigger a component update
-        this.update()
-      }
-    }
   </script>
 
 </form-component>

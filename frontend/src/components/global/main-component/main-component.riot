@@ -1,8 +1,15 @@
 <main-component>
     <h1>Products <h1/>
     <button id="toggle_form_btn" onclick={toggleForm}>Add a Product</button>
-    <form-component if={state.showForm}></form-component>
-    <list-product items={this.state.items}></list-product>
+    <form-component 
+        item={this.state.item}
+        if={state.showForm}
+        action={this.state.action}
+        _id={this.state._id}
+        handleCreate={handleCreate}>
+    </form-component>
+    
+    <list-product items={this.state.items} handleUpdate={handleUpdate} handleDelete={handleDelete}></list-product>
 
 
     <script>
@@ -18,7 +25,7 @@
                     price:0.0,
                 },
                 action:"create",
-                id:"",
+                _id:"",
                 showForm:false
             },
             async onBeforeMount () {
@@ -36,7 +43,7 @@
                     price:0.0,
                 }
                 this.state.action =  "create"
-                this.state.id=""
+                this.state._id=""
                 this.state.showForm = false
                 this.update()
             },
@@ -44,7 +51,38 @@
                 this.state.showForm = !this.state.showForm
                 // below line executed when form work is done
                 this.update()
-            }
+            },
+            async handleCreate(item){
+                const response = await fetch(this.state.url, {
+                    method:"post",
+                    headers:{
+                        "Content-Type":"application/json; charset=UTF-8"
+                    },
+                    body:JSON.stringify({
+                                    product_name: item[0],
+                                    quantity: item[1],
+                                    price: item[2]
+                                })
+                })
+                console.log("response : ", response)
+                this.getProducts()
+            },
+            async handleUpdate(item){
+                const response = await fetch(this.state.url+`/${item._id}`, {
+                    method:"put",
+                    headers:{
+                        "Content-Type":"application/json"
+                    },
+                    body:JSON.stringify(item)
+                })
+                this.getProducts()
+            },
+            async handleDelete(item){
+                const response = await fetch(this.state.url+`/${item._id}`, {
+                    method:"delete",
+                })
+                this.getProducts()
+            },
         }
     </script>
 
