@@ -9,7 +9,7 @@
         "cov-html": "nyc report --reporter=html",
         "build": "webpack --mode production",
         "prepublishOnly": "npm test",
-        "start": "webpack serve --mode development --hot --port 3000"
+        "start": "NODE_OPTIONS=--openssl-legacy-provider webpack serve --mode development --hot --port 3000"
     },
     "author": "vidda",
     "license": "ISC",
@@ -34,6 +34,9 @@
         "@riotjs/hot-reload": "^6.0.0",
         "@riotjs/lazy": "^2.0.1",
         "@riotjs/route": "^8.0.0",
+        "axios": "^0.26.0",
+        "bootstrap": "^5.1.3",
+        "jquery": "^3.6.0",
         "riot": "^6.0.2"
     }
 }

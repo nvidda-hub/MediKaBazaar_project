@@ -1,22 +1,32 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Product API</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.0/milligram.css">
-</head>
-<body>
-  <div class="container">
-    <div class="row">
-      <main class="column column-60">
-        <h1>Hello that's my first Riot.js App</h1>
+<!doctype html>
 
-        <div is="my-component" data-riot-component message="Hello There">
-        </div>
-      </main>
-      <aside is="sidebar" data-riot-component class="column"></aside>
-    </div>
-  </div>
-</body>
+<html>
+  <head>
+    <title>Riot todo</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="style.css">
+  </head>
+
+  <body>
+
+    <add_product></add_product>
+
+    <script src="../src/components/global/add_product/add_product.riot" type="riot"></script>
+    <script src="https://unpkg.com/riot@6/riot+compiler.min.js"></script>
+
+    <script>
+      riot.compile().then(() => {
+        riot.mount('add_product', {
+          title: 'I want to behave!',
+          items: [
+            { title: 'Avoid excessive caffeine', done: true },
+            { title: 'Hidden item',  hidden: true },
+            { title: 'Be less provocative'  },
+            { title: 'Be nice to people' },
+            { title: 'New One' },
+          ]
+        })
+      })
+    </script>
+  </body>
 </html>
