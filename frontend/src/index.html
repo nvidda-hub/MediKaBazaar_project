@@ -8,79 +8,9 @@
   </head>
 
   <body>
-    <div class="container"><list-product></list-product></div>
+    <div class="main_container">
+    <div is="main-component" data-riot-component></div>
+  </div>
     
-
-    <script src="../src/components/global/list-product/list-product.riot" type="riot"></script>
-    <script src="https://unpkg.com/riot@6/riot+compiler.min.js"></script>
-
-    <script>
-      riot.compile().then(() => {
-        riot.mount('list-product', {
-          items: [
-          {
-        "id": 1,
-        "product_name": "Acer Predator Helio 300",
-        "quantity": 203,
-        "price": 114999.0
-    },
-    {
-        "id": 3,
-        "product_name": "TShirt",
-        "quantity": 540,
-        "price": 1199.0
-    },
-    {
-        "id": 4,
-        "product_name": "Syringe",
-        "quantity": 5000,
-        "price": 10.0
-    },
-    {
-        "id": 5,
-        "product_name": "Paracetamol",
-        "quantity": 8900,
-        "price": 5.0
-    },
-    {
-        "id": 7,
-        "product_name": "Medicine",
-        "quantity": 4652,
-        "price": 23.0
-    },
-    {
-        "id": 8,
-        "product_name": "Medicine 2",
-        "quantity": 4566,
-        "price": 23.0
-    },
-    {
-        "id": 9,
-        "product_name": "Acer Predator Nitro",
-        "quantity": 230,
-        "price": 77999.0
-    },
-    {
-        "id": 10,
-        "product_name": "new medicine",
-        "quantity": 8956,
-        "price": 20.0
-    },
-    {
-        "id": 11,
-        "product_name": "Acer Predator Nitro",
-        "quantity": 230,
-        "price": 77999.0
-    },
-    {
-        "id": 12,
-        "product_name": "Canula",
-        "quantity": 1500,
-        "price": 15.0
-    },
-          ]
-        })
-      })
-    </script>
   </body>
 </html>

@@ -1,36 +1,4 @@
-<list-product>
-<div class="main_container ">
-  <h1>Products</h1>
-  <div class="row">
-        <form onsubmit={ add }  class="form-group" id="product_form">
-            <div class="container flex flex-col">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <input type="text"  name="product_name" class="form-control" placeholder="Enter Product Name" id="product_name" }>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <input type="number"  name="quantity" class="form-control" placeholder="How Many you have" id="quantity" }>  
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <input type="number"  name="price" class="form-control" placeholder="Enter Product Price" id="price" }>
-                    </div>
-                </div>
-            
-                <div class="col-md-6">
-                    <button id="addProductBtn">
-                        Add a product 
-                    </button>
-                </div>
-
-            </div>
-        </form>
-    </div>
+<list-product> 
 
   <div class="row">
         <div class="table-responsive">
@@ -43,35 +11,33 @@
                     <th width="20%">Action</th>
                 </tr>
                 </thead>
-                <tbody id="table-data" each={ item in state.items }>
+                <tbody id="table-data" each={ item in props.items }>
                     <td>{item.product_name}</td>
                     <td>{item.quantity}</td>
                     <td>{item.price}</td>
                     <td>
-                        <button type="button" class="btn btn-primary">Update</button>
-                        <button type="button" class="btn btn-danger">Delete</button>
+                        <button type="button" class="btn" id="update_btn" onclick={handleUpdate}>Update</button>
+                        <button type="button" class="btn" id= "delete_btn" onclick={handleDelete}>Delete</button>
                     </td>
                 </tbody>
             </table>
         </div>
     </div>
-    </div>
 
     <style>
-      .main_container {
-        left: 50%;
-        top: 50%;
-        margin-left: -25%;
-        position: absolute;
-        margin-top: -25%;
-    }
-      #addProductBtn{
-        margin-top:24px;
-        margin-bottom:24px;
+      #update_btn{
+        background:#54009e;
+        font-weight: bold;
       }
-      h1{
-        color: blue;
+
+      #update_btn : hover{
+        background:#086e17;
       }
+      #delete_btn{
+        background:#610701;
+        font-weight: bold;
+      }
+      
       .styled_table {
         border-collapse: collapse;
         margin: 25px 0;
@@ -79,63 +45,38 @@
         font-family: sans-serif;
         min-width: 400px;
         box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+      }
+      .styled_table thead tr {
+        background-color: #009879;
+        color: #ffffff;
+        text-align: left;
+      }
+      .styled_table th,
+      .styled_table td {
+        padding: 12px 15px;
+        text-align: center;
     }
-    .styled_table thead tr {
-      background-color: #009879;
-      color: #ffffff;
-      text-align: left;
-    }
-    .styled_table th,
-    .styled_table td {
-      padding: 12px 15px;
-  }
 
-  .styled_table tbody tr {
-    border-bottom: 1px solid #dddddd;
-}
+      .styled_table tbody tr {
+        border-bottom: 1px solid #dddddd;
+      }
 
-.styled_table tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
-}
+      .styled_table tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+      }
+      table, th, td {
+        border: 1px solid;
+      }
+      
 
     </style>
+    <script>
 
-  <script>
-
-    export default {
-      onBeforeMount(props, state) {
-        // initial state
-        this.state = {
-          items: props.items,
-          product_name:'',
-          quantity:0,
-          price:0.0,
+      export default {
+        onBeforeMount(props, state){
+          console.log(props.items)
         }
-      },
-      add(e) {
-        e.preventDefault()
-        const { product_name, quantity, price } = document.forms[0].elements;
-        if (this.state) {
-          console.log("here")
-          this.update({
-            items: [
-              ...this.state.items,
-              // add a new item
-              {
-                "id": this.state.items.length + 1 ,
-                "product_name": product_name.value,
-                "quantity": quantity.value,
-                "price": price.value,
-              },
-            ],
-          })
-        }
-      },
-      toggle(item) {
-        item.done = !item.done
-        // trigger a component update
-        this.update()
       }
-    }
-  </script>
+
+    </script>
 </list-product>
