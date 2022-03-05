@@ -5,11 +5,11 @@ body {
   border: 0;
 }
 
-todo {
+/* list-product {
   display: block;
   max-width: 400px;
   margin: 5% auto;
-}
+} */
 
 form input {
   font-size: 85%;
