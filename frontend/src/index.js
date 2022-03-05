@@ -1,6 +1,7 @@
 import './style.css'
 import '@riotjs/hot-reload'
 import { mount } from 'riot'
+import axios from 'axios'
 import registerGlobalComponents from './register-global-components'
 
 // register
