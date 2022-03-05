@@ -1,6 +1,7 @@
 <main-component>
     <h1>Products <h1/>
-    <form-component></form-component>
+    <button id="toggle_form_btn" onclick={toggleForm}>Add a Product</button>
+    <form-component if={state.showForm}></form-component>
     <list-product items={this.state.items}></list-product>
 
 
@@ -8,13 +9,40 @@
         export default {
             state:{
                 url:"http://127.0.0.1:8000/api/v1/products/",
-                items:[]
+                items:[],
+
+                // tracking what is happening to form
+                item:{
+                    product_name:'',
+                    quantity:0,
+                    price:0.0,
+                },
+                action:"create",
+                id:"",
+                showForm:false
             },
             async onBeforeMount () {
+                this.getProducts()
+            },
+
+            // fetching all the products from api 
+            async getProducts(){
                 const response = await fetch(this.state.url)
                 const items = await response.json()
-                console.log(items)
                 this.state.items = items
+                this.state.product = {
+                    product_name:'',
+                    quantity:0,
+                    price:0.0,
+                }
+                this.state.action =  "create"
+                this.state.id=""
+                this.state.showForm = false
+                this.update()
+            },
+            toggleForm(){
+                this.state.showForm = !this.state.showForm
+                // below line executed when form work is done
                 this.update()
             }
         }

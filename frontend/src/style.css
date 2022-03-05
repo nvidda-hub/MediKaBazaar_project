@@ -44,6 +44,11 @@ button[disabled] {
   background-color: #ddd;
   color: #aaa;
 }
+
+#toggle_form_btn{
+  margin-bottom: 20px;
+}
+
 #addProductBtn{
   margin-top:24px;
   margin-bottom:24px;
