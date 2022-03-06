@@ -9,7 +9,13 @@
         handleCreate={handleCreate}>
     </form-component>
     
-    <list-product items={this.state.items} handleUpdate={handleUpdate} handleDelete={handleDelete}></list-product>
+    <list-product 
+        items={this.state.items} 
+        handleUpdate={handleUpdate} 
+        handleDelete={handleDelete}
+        selectItemToUpdate={selectItemToUpdate}>
+        
+        </list-product>
 
 
     <script>
@@ -73,16 +79,28 @@
                     headers:{
                         "Content-Type":"application/json"
                     },
-                    body:JSON.stringify(item)
+                    body:JSON.stringify({
+                                    product_name: item[0],
+                                    quantity: item[1],
+                                    price: item[2]
+                                })
                 })
                 this.getProducts()
             },
             async handleDelete(item){
-                const response = await fetch(this.state.url+`/${item._id}`, {
+                console.log("item selected for delete : ", item)
+                const response = await fetch(this.state.url+`${item.id}/`, {
                     method:"delete",
                 })
                 this.getProducts()
             },
+            selectItemToUpdate(item){
+                console.log("item selected : ", item)
+                this.state.item = item
+                this.state.action = "update"
+                this.state.showForm = true
+                this.update()
+            }
         }
     </script>
 
