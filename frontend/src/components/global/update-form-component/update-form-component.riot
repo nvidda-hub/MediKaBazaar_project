@@ -1,0 +1,49 @@
+<form-component>
+    <h2>Edit this product</h2>
+    <div class="row">
+        <form class="form-group" id="product_form">
+            <div class="container flex flex-col">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input type="text"  name="product_name" class="form-control" placeholder="Enter Product Name" id="product_name" value={props.item.product_name}>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input type="number"  name="quantity" class="form-control" placeholder="How Many you have" id="quantity" value={props.item.quantity}>  
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <input type="number"  name="price" class="form-control" placeholder="Enter Product Price" id="price" value={props.item.price}>
+                    </div>
+                </div>
+            
+                <div class="col-md-6">
+                    <button id="addProductBtn" onclick={handleSubmit}>
+                        Submit
+                    </button>
+                </div>
+
+            </div>
+        </form>
+    </div>
+    
+    <script>
+
+        export default {
+            handleSubmit(event){
+                event.preventDefault()
+                const { product_name, quantity, price } = document.forms[0].elements;
+                const formResult = [ product_name.value, quantity.value, price.value]
+
+                if (this.props.action === "update"){
+                    this.props.handleUpdate(formResult)
+                }
+            }
+        }
+  </script>
+
+</form-component>

@@ -1,9 +1,18 @@
 <main-component>
+
+    <update-form-component 
+        item={this.state.item}
+        if={state.showFormUpdate}
+        action={this.state.action}
+        _id={this.state._id}
+        handleUpdate={handleUpdate}>
+    </update-form-component>
+
     <h1>Products <h1/>
     <button id="toggle_form_btn" onclick={toggleForm}>Add a Product</button>
     <form-component 
         item={this.state.item}
-        if={state.showForm}
+        if={state.showFormAdd}
         action={this.state.action}
         _id={this.state._id}
         handleCreate={handleCreate}>
@@ -32,7 +41,8 @@
                 },
                 action:"create",
                 _id:"",
-                showForm:false
+                showFormAdd:false,
+                showFormUpdate:false,
             },
             async onBeforeMount () {
                 this.getProducts()
@@ -50,11 +60,11 @@
                 }
                 this.state.action =  "create"
                 this.state._id=""
-                this.state.showForm = false
+                this.state.showFormAdd = false
                 this.update()
             },
             toggleForm(){
-                this.state.showForm = !this.state.showForm
+                this.state.showFormAdd = !this.state.showFormAdd
                 // below line executed when form work is done
                 this.update()
             },
@@ -74,7 +84,9 @@
                 this.getProducts()
             },
             async handleUpdate(item){
-                const response = await fetch(this.state.url+`/${item._id}`, {
+                console.log("item : ", item)
+                console.log("item id : ", this.state.id)
+                const response = await fetch(this.state.url+`${this.state.id}/`, {
                     method:"put",
                     headers:{
                         "Content-Type":"application/json"
@@ -86,6 +98,7 @@
                                 })
                 })
                 this.getProducts()
+                this.state.showFormUpdate = false
             },
             async handleDelete(item){
                 console.log("item selected for delete : ", item)
@@ -97,8 +110,9 @@
             selectItemToUpdate(item){
                 console.log("item selected : ", item)
                 this.state.item = item
+                this.state.id = item.id
                 this.state.action = "update"
-                this.state.showForm = true
+                this.state.showFormUpdate = true
                 this.update()
             }
         }
