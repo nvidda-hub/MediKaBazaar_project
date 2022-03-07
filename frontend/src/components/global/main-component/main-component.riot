@@ -79,7 +79,7 @@
                 const response = await fetch(this.state.url+`search/${queryString}/`)
                 const items = await response.json()
                 console.log(items)
-                this.state.items = items
+                this.state.items = items.results
                 this.state.product = {
                     product_name:'',
                     quantity:0,
