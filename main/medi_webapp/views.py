@@ -6,60 +6,18 @@ from medi_webapp.models import Product
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.parsers import JSONParser
+from rest_framework.pagination import LimitOffsetPagination
+from medi_webapp.documents import ProductDocument
 
 # Create your views here.
 import pymongo
-from django.db.models.query_utils import Q
+from elasticsearch_dsl import Q
 from rest_framework.views import APIView
 
 
 db_client = pymongo.MongoClient('mongodb://localhost:27017/')
 db = db_client.product_database
 
-
-
-# class ProductView(APIView):
-#     def get(self, request, format=None):
-#         product = Product.objects.all()
-#         serializer = ProductSerializer(product, many=True)
-#         return Response(serializer.data)
-  
-#     # POST request for creating new alert/targetPrice
-#     def post(self, request, format=None):
-#         serializer = ProductSerializer(data=request.data)
-#         data = {}
-#         if serializer.is_valid():
-#             product = serializer.save()
-#             data['response'] = "successfully added new product."
-#             data['product_name'] = product.product_name
-#             data['quantity'] = product.quantity
-#             data['price'] = product.price
-#             return Response(data, status=status.HTTP_201_CREATED)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-#     def put(self, request, pk, format=None):
-#         product = Product.objects.get(pk=pk)
-#         serializer = ProductSerializer(product, data=request.data)
-#         if serializer.is_valid():
-#             serializer.save(owner=self.request.user)
-#             return Response(serializer.data)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-#     # PATCH request to edit partial data { In this you can flag to an item }
-#     def patch(self, request, format=None):
-#         Product = Product.objects.get(id = request.data['id'])
-#         serializer = ProductSerializer(Product, data=request.data, partial=True)
-#         if serializer.is_valid():
-#             serializer.save(owner=self.request.user)
-#             return Response(serializer.data)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-#     # this DELETE request will delete the data from database
-#     def delete(self, request, format=None):
-#         if self.request.user.is_authenticated:
-#             Product = Product.objects.get(id = request.data['id'])
-#             Product.delete()
-#             return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class ProductView(APIView):
@@ -129,3 +87,31 @@ class ProductDetailView(APIView):
 
         product.delete()
         return Response({"msg":f"data of student with id {pk} deleted!!"})
+
+
+class ProductSearchView(APIView, LimitOffsetPagination):
+    product_search_serializer = ProductSerializer
+    search_document = ProductDocument
+
+    def get(self, request, query):
+        try:
+            # creating query instance
+            q = Q(
+                "multi_match",
+                query=query,
+                fields=[
+                    "product_name"
+                    ],
+            )
+
+            search = self.search_document.search().query(q)
+            response = search.execute()
+
+            results = self.paginate_queryset(response, request, view=self)
+            serializer = self.product_search_serializer(results, many=True)
+
+            return self.get_paginated_response(serializer.data)
+
+
+        except:
+            return Response({"msg":f"data not found for product name {query}!!"}, status=status.HTTP_404_NOT_FOUND)

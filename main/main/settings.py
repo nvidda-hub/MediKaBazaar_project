@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'medi_webapp',
     'corsheaders',
+    'django_elasticsearch_dsl',
 ]
 
 MIDDLEWARE = [
@@ -134,8 +135,19 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.JSONParser',
         'rest_framework.parsers.FormParser',
         'rest_framework.parsers.MultiPartParser'
-     )
+     ),
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 10
  }
 
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+
+ELASTICSEARCH_DSL={
+    'default': {
+        'hosts': 'localhost:9200'
+    },
+}
+
+# public ip : 192.168.29.1
