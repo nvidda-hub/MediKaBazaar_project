@@ -26,7 +26,11 @@
         
         </list-product>
 
-    <search-component></search-component>
+    <search-component 
+    
+    getQueriedProducts={getQueriedProducts}>
+    
+    </search-component>
 
     <script>
         export default {
@@ -63,6 +67,21 @@
                 this.state._id=""
                 this.state.showFormAdd = false
                 this.update()
+            },
+            async getQueriedProducts(queryString){
+                console.log("query string : ", queryString)
+                // const response = await fetch(this.state.url+`search/${queryString}/`)
+                // const items = await response.json()
+                // this.state.items = items
+                // this.state.product = {
+                //     product_name:'',
+                //     quantity:0,
+                //     price:0.0,
+                // }
+                // this.state.action =  "create"
+                // this.state._id=""
+                // this.state.showFormAdd = false
+                // this.update()
             },
             toggleForm(){
                 this.state.showFormAdd = !this.state.showFormAdd
