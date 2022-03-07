@@ -1,0 +1,21 @@
+<search-component>
+    <form>
+        <div>
+            <input type="search" id="mySearch" name="q"
+            placeholder="Search for Product">
+            <button onclick={getQueryString}>Search</button>
+        </div>
+</form>
+
+<script>
+
+        export default {
+            getQueryString(event){
+                event.preventDefault()
+                var queryString = document.getElementById("mySearch").value;
+                
+                this.props.getQueriedProducts(queryString)
+            }
+        }
+  </script>
+</search-component>
