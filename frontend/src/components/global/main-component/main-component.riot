@@ -48,9 +48,16 @@
                 _id:"",
                 showFormAdd:false,
                 showFormUpdate:false,
+                query_type:"all"
             },
             async onBeforeMount () {
-                this.getProducts()
+                if(this.state.query_type === "all"){
+                    this.getProducts();
+                }
+                else{
+
+                    this.getQueriedProducts();
+                }
             },
 
             // fetching all the products from api 
@@ -69,19 +76,20 @@
                 this.update()
             },
             async getQueriedProducts(queryString){
-                console.log("query string : ", queryString)
-                // const response = await fetch(this.state.url+`search/${queryString}/`)
-                // const items = await response.json()
-                // this.state.items = items
-                // this.state.product = {
-                //     product_name:'',
-                //     quantity:0,
-                //     price:0.0,
-                // }
-                // this.state.action =  "create"
-                // this.state._id=""
-                // this.state.showFormAdd = false
-                // this.update()
+                const response = await fetch(this.state.url+`search/${queryString}/`)
+                const items = await response.json()
+                console.log(items)
+                this.state.items = items
+                this.state.product = {
+                    product_name:'',
+                    quantity:0,
+                    price:0.0,
+                }
+                this.state.action =  "create"
+                this.state._id=""
+                this.state.showFormAdd = false
+                this.state.query_type = "filtered"
+                this.update()
             },
             toggleForm(){
                 this.state.showFormAdd = !this.state.showFormAdd
