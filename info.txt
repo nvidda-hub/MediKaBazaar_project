@@ -1,2 +1,4 @@
 to start riot server --> NODE_OPTIONS=--openssl-legacy-provider npm start
 when frontend  server unexpectedly goes down then run : npm install webpack webpack-dev-server --save-dev
+
+if elastic search is not responding on system reboot use : sudo systemctl restart elasticsearch
